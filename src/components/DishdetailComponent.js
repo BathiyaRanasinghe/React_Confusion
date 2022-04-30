@@ -177,5 +177,5 @@ const Dishdetail = (props) => {
         );
     }
 }
-
+1``
 export default Dishdetail;
