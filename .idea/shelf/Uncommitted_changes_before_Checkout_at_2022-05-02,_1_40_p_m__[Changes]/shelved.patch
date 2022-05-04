@@ -1,0 +1,60 @@
+Index: src/redux/configureStore.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import {createStore, combineReducers} from 'redux';\nimport { Dishes } from './dishes';\nimport { Comments } from './comments';\nimport { Promotions } from './promotions';\nimport { Leaders } from './leaders';\n\nexport const ConfigureStore = () => {\n   const store = createStore(\n       combineReducers({\n          dishes: Dishes,\n          comments: Comments,\n          promotions: Promotions,\n          leaders: Leaders\n       })\n   );\n\n   return store;\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/redux/configureStore.js b/src/redux/configureStore.js
+--- a/src/redux/configureStore.js	
++++ b/src/redux/configureStore.js	
+@@ -5,14 +5,15 @@
+ import { Leaders } from './leaders';
+ 
+ export const ConfigureStore = () => {
+-   const store = createStore(
+-       combineReducers({
+-          dishes: Dishes,
+-          comments: Comments,
+-          promotions: Promotions,
+-          leaders: Leaders
+-       })
+-   );
++    const store = createStore(
++        combineReducers({
++            dishes: Dishes,
++            comments: Comments,
++            promotions: Promotions,
++            leaders: Leaders
++        })
++    );
+ 
+-   return store;
+-}
+\ No newline at end of file
++    return store;
++}
++
+Index: src/redux/comments.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { COMMENTS } from '../shared/comments';\n\nexport const Comments = (state = COMMENTS, action) => {\n    switch (action.type) {\n\n        default:\n            return state;\n    }\n};
+===================================================================
+diff --git a/src/redux/comments.js b/src/redux/comments.js
+--- a/src/redux/comments.js	
++++ b/src/redux/comments.js	
+@@ -1,7 +1,14 @@
+ import { COMMENTS } from '../shared/comments';
++import * as ActionTypes from './ActionTypes';
+ 
+ export const Comments = (state = COMMENTS, action) => {
+     switch (action.type) {
++        case ActionTypes.ADD_COMMENT:
++            var comment = action.payload;
++            comment.id = state.length;
++            comment.date = new Date().toISOString();
++            console.log("Comment: ", comment);
++            return state.concat(comment);
+ 
+         default:
+             return state;

@@ -1,0 +1,18 @@
+Index: src/components/MainComponent.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { Component } from 'react';\nimport Home from './HomeComponent';\nimport Menu from './MenuComponent';\nimport Contact from './ContactComponent';\nimport About from './AboutComponent';\nimport DishDetail from './DishdetailComponent';\nimport Header from './HeaderComponent';\nimport Footer from './FooterComponent';\nimport { Switch, Route, Redirect, withRouter } from 'react-router-dom';\nimport { connect } from 'react-redux';\n\nconst mapStateToProps = state => {\n   return {\n      dishes: state.dishes,\n      comments: state.comments,\n      promotions: state.promotions,\n      leaders: state.leaders\n   }       \n}\n   \nclass Main extends Component {\n   constructor(props) {\n      super(props);\n   }\n   \n   render() {\n      const HomePage = () => {\n         return (\n            <Home dish={this.props.dishes.filter((dish) => dish.featured)[0]} promotion={this.props.promotions.filter((promo) => promo.featured)[0]} leader={this.props.leaders.filter((leader) => leader.featured)[0]}/>\n         );\n      }\n      \n      const DishWithId = ({match}) => {\n         return (\n            <DishDetail dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]} comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))} />\n         );\n      }\n   \n      return (\n         <div>\n            <Header />\n            <Switch>\n               <Route path=\"/home\" component={HomePage} />\n               <Route exact path=\"/aboutus\" component={() => <About leaders={this.props.leaders} />} />\n               <Route exact path=\"/menu\" component={() => <Menu dishes={this.props.dishes} />} />\n               <Route path=\"/menu/:dishId\" component={DishWithId} />\n               <Route exact path=\"/contactus\" component={Contact} />\n               <Redirect to=\"/home\" />\n            </Switch>           \n            <Footer />\n         </div>\n      );\n   }\n}\n\nexport default withRouter(connect(mapStateToProps)(Main));
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/MainComponent.js b/src/components/MainComponent.js
+--- a/src/components/MainComponent.js	
++++ b/src/components/MainComponent.js	
+@@ -8,6 +8,7 @@
+ import Footer from './FooterComponent';
+ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+ import { connect } from 'react-redux';
++import { addComment } from '../redux/ActionCreators';
+ 
+ const mapStateToProps = state => {
+    return {
